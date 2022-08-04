@@ -1,13 +1,12 @@
 package com.dds.services;
 
 import com.dds.model.Product;
-import com.dds.model.responses.ProductResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
-    List<ProductResponse> findAll();
+    List<Product> findAll();
 
     Optional<Product> findById(Long id);
 

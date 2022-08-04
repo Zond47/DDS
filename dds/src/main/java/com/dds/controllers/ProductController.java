@@ -1,7 +1,6 @@
 package com.dds.controllers;
 
 import com.dds.model.Product;
-import com.dds.model.responses.ProductResponse;
 import com.dds.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class ProductController {
     private final ProductService productService;
 
     @RequestMapping("/allProducts")
-    public ResponseEntity<List<ProductResponse>> findAllProducts() {
+    public ResponseEntity<List<Product>> findAllProducts() {
         return ResponseEntity.ok(productService.findAll());
     }
 
@@ -35,7 +34,6 @@ public class ProductController {
         return ResponseEntity.ok(productService.findById(id));
     }
 
-    // TODO Add Aspect for logging
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Product> create(@Valid @RequestBody Product product,
                           Errors errors) {
@@ -48,6 +46,10 @@ public class ProductController {
     @RequestMapping(value = "/{Id:[\\d]+}", method = RequestMethod.PUT)
     public ResponseEntity<Product> update(@PathVariable Long Id,
                                           @Valid @RequestBody Product product) {
+        Optional<Product> productOptional = productService.findById(Id);
+        if (productOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(productService.update(Id, product).isPresent() ? product : null);
     }
 

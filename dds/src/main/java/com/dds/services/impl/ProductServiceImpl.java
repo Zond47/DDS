@@ -1,7 +1,6 @@
 package com.dds.services.impl;
 
 import com.dds.model.Product;
-import com.dds.model.responses.ProductResponse;
 import com.dds.repositories.ProductRepository;
 import com.dds.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
-import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,17 +19,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
-    @Autowired
-    private final ModelMapper modelMapper;
-
     @Override
-    public List<ProductResponse> findAll() {
-        List<Product> all = productRepository.findAll();
-        List<ProductResponse> list = new ArrayList<>();
-        for (Product product : all) {
-            list.add(new ProductResponse(product));
-        }
-        return list;
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     @Override
